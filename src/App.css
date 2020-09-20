@@ -1,0 +1,12 @@
+  table {
+    text-align: left;
+    position: relative;
+  }
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index:2;
+  }
+  .App-header {
+    margin-bottom:10px;
+  }

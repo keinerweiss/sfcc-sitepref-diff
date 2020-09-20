@@ -1,0 +1,52 @@
+"""
+Change __USER_USERNAME__ and __USER_PASSWORD__ to your own Business Manager User credentials.
+Change __OCAPI_CLIENTID and __OCAPI_CLIENTID_PASSWORD__ to your settings
+
+name 
+	must match the name in systems.py
+
+ocapi_config = {
+	"name": {
+		"domain": "host.demandware.net",
+		"clientId": 'id',
+		"passToken": pass_token,
+		"user": "user",
+		"password": 'password'
+	},
+	...
+}
+
+If you need a proxy, add it and enable the proxy via
+# proxies = None
+"""
+
+proxies = {
+	"http": "http://myproxy.com:8080", 
+	"https": "http://myproxy.com:8080"
+}
+proxies = None
+
+ocapi_config = {
+	"development": {
+		"domain": "development.my-host.demandware.net",
+		"clientId": "__OCAPI_CLIENTID__",
+		"passToken": "__OCAPI_CLIENTID_PASSWORD__",
+		"user": "__USER_USERNAME__",
+		"password": '__USER_PASSWORD__'
+	},
+	"staging": {
+		"domain": "staging.my-host.demandware.net",
+		"clientId": "__OCAPI_CLIENTID__",
+		"passToken": "__OCAPI_CLIENTID_PASSWORD__",
+		"user": "__USER_USERNAME__",
+		"password": '__USER_PASSWORD__'
+	},
+	"production": {
+		"domain": "production.my-host.demandware.net",
+		"clientId": "__OCAPI_CLIENTID__",
+		"passToken": "__OCAPI_CLIENTID_PASSWORD__",
+		"user": "__USER_USERNAME__",
+		"password": '__USER_PASSWORD__'
+	}
+}
+
