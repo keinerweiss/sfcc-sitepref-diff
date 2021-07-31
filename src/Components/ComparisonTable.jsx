@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 class ComparisonHeading extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         var sites = [];
@@ -20,15 +17,12 @@ class ComparisonHeading extends Component {
 }
 
 class ComparisonRows extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         var rows = [];
         var rowsData = {};
-        Object.keys(this.props.results).map((site) => {
-            Object.keys(this.props.results[site]).map((group) => {
-                Object.keys(this.props.results[site][group]).map((pref) => {
+        Object.keys(this.props.results).forEach((site) => {
+            Object.keys(this.props.results[site]).forEach((group) => {
+                Object.keys(this.props.results[site][group]).forEach((pref) => {
                     var prefKey = group+" / "+pref;
                     rowsData[prefKey] = rowsData[prefKey] || {};
                     rowsData[prefKey][site] = {
@@ -42,7 +36,7 @@ class ComparisonRows extends Component {
             });
         });
         
-        Object.keys(rowsData).map((prefKey) => {
+        Object.keys(rowsData).forEach((prefKey) => {
             var pref = prefKey;
             rows.push(<ComparisonRow preference={pref} key={"pref_"+pref} id={"pref_"+pref} siteConfigurations={rowsData[prefKey]} onDiff={this.props.onDiff} />);
         }) 
@@ -52,17 +46,14 @@ class ComparisonRows extends Component {
 }
 
 class ComparisonRow extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         var sites = [];
-        Object.keys(this.props.siteConfigurations).map((site) => {
+        Object.keys(this.props.siteConfigurations).forEach((site) => {
             var diffLinks = [];
             var buttonClass = "btn-secondary";
             if(typeof this.props.siteConfigurations[site].result === 'object' && !("match" in this.props.siteConfigurations[site].result)) { // list differing systems per cell
-                Object.keys(this.props.siteConfigurations[site].result).map((system) => {
+                Object.keys(this.props.siteConfigurations[site].result).forEach((system) => {
                     if(this.props.siteConfigurations[site].existed && !this.props.siteConfigurations[site].result[system].match) { // inequality
                         diffLinks.push((
                             <button key={this.props.key+"_"+site+"_"+system} className="btn btn-link" onClick={() => {this.props.onDiff(system, site, this.props.siteConfigurations[site].group, this.props.siteConfigurations[site].pref)}}>{system}</button>

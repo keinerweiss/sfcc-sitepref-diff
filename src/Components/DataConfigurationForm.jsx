@@ -18,15 +18,15 @@ export default class DataConfigurationForm extends Component {
     makeActive(group) {
         var showLeft = ["server","system","site"],
             showRight = ["server","system","site"];
-        if(group == 'equal-sites') {
+        if(group === 'equal-sites') {
             showLeft = ["server","system"];
             showRight = ["server","system"];
         }
-        if(group == 'cross-sites') {
+        if(group === 'cross-sites') {
             showLeft = ["server","system","site"];
             showRight = ["server","system"];
         }
-        if(group == 'cross-systems') {
+        if(group === 'cross-systems') {
             showLeft = ["server","system"];
             showRight = ["server"];
         }
@@ -93,9 +93,6 @@ export default class DataConfigurationForm extends Component {
 }
 
 class ConfigurationOptions extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     handleSiteChange(event) {
         var current = Object.assign({}, this.props);
@@ -132,7 +129,7 @@ class ConfigurationOptions extends Component {
         ));
         if(!this.props.sites[selectedServer][selectedSystem]) throw new Error('sites not built yet');
         var siteOptions = [];
-        this.props.sites[selectedServer][selectedSystem].map((site) => {
+        this.props.sites[selectedServer][selectedSystem].forEach((site) => {
             siteOptions.push(<option value={site} key={'form'+this.props.responsibility+selectedServer+selectedSystem+"_site_"+site} selected={this.props.site === site}>{site}</option>);
         });
         if(this.props.responsibility === 'comp') {
