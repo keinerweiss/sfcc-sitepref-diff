@@ -54,14 +54,17 @@ export default class Page extends Component {
         };
         
         this.addPreferencesCallback.bind(this);
-        this.filesToLoad.map((name) => {
-            fetchJsonp('./data/data-'+name+'.jsonp', { jsonpCallbackFunction: 'addPreferencesCallback_'+name })
+        this.filesToLoad.forEach((name) => {
+            fetchJsonp('./data/data-'+name+'.jsonp', { 
+                timeout: 10000,
+                jsonpCallbackFunction: 'addPreferencesCallback_'+name 
+            })
             .then((data, updateInfo) => {
                 return data.json();
             }).then((data) => {                
                 this.addPreferencesCallback(data);
             });
-        })
+        });
     }
 
     updateComparisonTable(method, baseServer, baseSystem, baseSite, compServer, compSystem, compSite) {
@@ -115,6 +118,7 @@ export default class Page extends Component {
                     compSite = Object.keys(this.state.sitePreferences[compServer][compSystem])[0]
                 }
             case "compSite":
+            default:
                 break;
         }
         var config = {
@@ -154,15 +158,15 @@ export default class Page extends Component {
                 return system === "*" || system === combine[i][1];
             });
             var j = i;
-            compSystems.map(function(system) {
+            compSystems.forEach(function(system) {
                 var comp = this.state.sitePreferences[combine[j][0]][system];
                 if(comp === undefined) return;
-                Object.keys(comp).map(function (site) {
-                    Object.keys(comp[site]).map(function (group) {
+                Object.keys(comp).forEach((site) => {
+                    Object.keys(comp[site]).forEach((group) => {
                         if(typeof accumulatedPrefs[group] !== 'object') {
                             accumulatedPrefs[group] = {};
                         }
-                        Object.keys(comp[site][group]).map(function (id) {
+                        Object.keys(comp[site][group]).forEach((id) => {
                             if (id.substr(0, 2) !== 'c_') return;
                             accumulatedPrefs[group][id] = defaultValue;
                         });
@@ -305,13 +309,13 @@ export default class Page extends Component {
             sitePreferences: newSitePreferences,
             }, () => {
                 var servers = [], systems = {}, sites = {};
-                Object.keys(this.state.sitePreferences).map((server,v) => {
+                Object.keys(this.state.sitePreferences).forEach((server,v) => {
                     servers.push(server);
-                    Object.keys(this.state.sitePreferences[server]).map((system,v) => {
+                    Object.keys(this.state.sitePreferences[server]).forEach((system,v) => {
                         systems[server] = systems[server] || [];
                         systems[server].push(system);
                         sites[server] = sites[server] || {};
-                        Object.keys(this.state.sitePreferences[server][system]).map((site,v) => {
+                        Object.keys(this.state.sitePreferences[server][system]).forEach((site,v) => {
                             sites[server][system] = sites[server][system] || [];
                             sites[server][system].push(site);
                         });
@@ -336,7 +340,7 @@ export default class Page extends Component {
                             compServer = baseServer,
                             compSystem = baseSystem,
                             compSite = baseSite;
-                        this.updateComparisonTable('equal-sites', baseServer, baseSystem, baseSite, compServer, compSystem, compSite)
+                        this.updateComparisonTable(method, baseServer, baseSystem, baseSite, compServer, compSystem, compSite)
                     }
                 });
             }
