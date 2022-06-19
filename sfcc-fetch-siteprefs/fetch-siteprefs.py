@@ -51,7 +51,7 @@ def getAccessToken(server):
 	accessTokenTimeout = ocapi_config[server]["accessTokenTimeout"] if "accessTokenTimeout" in ocapi_config[server] else None
 	if not accessToken or int(time.time()) > accessTokenTimeout:
 		pass_token = ocapi_config[server]["passToken"]
-		user_and_pass = b64encode((user+":"+password+pass_token).encode('ascii')).decode('ascii')
+		user_and_pass = b64encode((user+":"+password+":"+pass_token).encode('ascii')).decode('ascii')
 		getTokenQueryParts = {
 			'client_id':id_ocapi, 
 			'grant_type':'urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken'
